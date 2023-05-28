@@ -44,13 +44,20 @@ class PhotoListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        var was_loading = false
         binding.photoList.adapter = listViewAdapter
         binding.photoList.layoutManager = LinearLayoutManager(view.context)
 
         viewModel = ViewModelProvider(this).get(PhotoListViewModel::class.java)
         viewModel.photos.observe(viewLifecycleOwner, Observer { photos ->
             listViewAdapter.updateData(photos)
+        })
+
+        viewModel.loading.observe(viewLifecycleOwner, Observer { loading ->
+            if (loading && !was_loading) {
+                Toast.makeText(view.context, "Loading Photos...", Toast.LENGTH_SHORT).show()
+            }
+            was_loading = loading
         })
 
         // Detect vertical overscroll, load more photos if available.
@@ -65,12 +72,9 @@ class PhotoListFragment : Fragment() {
         })
     }
 
-    // Called when the user taps on an entry; navigates
-    // to the detail fragment
-    fun onClickCallback(photoData: PhotoData) {
-        findNavController().navigate(R.id.action_PhotoFragment_to_DetailFragment)
+    override fun onResume() {
+        super.onResume()
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

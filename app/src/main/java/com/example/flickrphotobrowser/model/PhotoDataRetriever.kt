@@ -10,7 +10,7 @@ abstract class PhotoDataRetriever(
     val searchTag: String = "",
     val pageSize: Int = 10
 ) {
-    protected var currentPage = 0
+    protected var currentPage = 1
 
     /**
      * Retrieve photos from the data source.  This

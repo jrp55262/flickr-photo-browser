@@ -34,10 +34,6 @@ class PhotoDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.backToListButton.setOnClickListener {
-            findNavController().navigate(R.id.action_DetailFragment_to_PhotoFragment)
-        }
-
         val title = arguments?.getString("photoTitle")
         val imageUrl = arguments?.getString("photoImageUrl")
         val description = arguments?.getString("photoDescription")

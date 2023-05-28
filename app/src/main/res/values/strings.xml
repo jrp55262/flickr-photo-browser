@@ -2,10 +2,11 @@
     <string name="app_name">FlickrPhotoBrowser</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="photo_list_fragment_label">Photo Fragment</string>
-    <string name="photo_detail_fragment_label">Detail Fragment</string>
+    <string name="photo_list_fragment_label">Flickr Photo Browser</string>
+    <string name="photo_detail_fragment_label">Photo Details</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="search_hint">Search for photos</string>
 
     <string name="no_content">Photo List Will Go Here</string>
     <string name="no_photo">Photo Details Will Go Here</string>

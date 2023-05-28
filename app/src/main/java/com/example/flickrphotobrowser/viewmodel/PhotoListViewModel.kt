@@ -14,13 +14,16 @@ import kotlinx.coroutines.launch
 class PhotoListViewModel(): ViewModel() {
 
     val photos = MutableLiveData<List<PhotoData>>()
-    private val photoRetriever = FlickrPhotoDataRetriever("moon", 5)
+    val loading = MutableLiveData<Boolean>()
+    private val photoRetriever = FlickrPhotoDataRetriever("moon", 50)
 
     // Run this on the IO thread in case the underlying retriever
     // needs to do so
     fun getMorePhotos() {
+        loading.postValue(true)
         CoroutineScope(Dispatchers.IO).launch {
             val newPhotos = photoRetriever.getMorePhotos()
+            loading.postValue(false)
             if (newPhotos.size > 0) {
                 photos.postValue(photos.value?.toMutableList()?.plus(newPhotos) ?: newPhotos)
             }
@@ -29,6 +32,7 @@ class PhotoListViewModel(): ViewModel() {
 
     init {
         // timerLoop()
+        loading.value = false
         getMorePhotos()
     }
 
