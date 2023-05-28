@@ -6,7 +6,10 @@ import kotlin.math.min
  * An implementation of PhotoDataRetriever that is backed by a
  * static list of data items for testing/debugging
  */
-class TestPhotoDataRetriever: PhotoDataRetriever {
+class TestPhotoDataRetriever(
+    private val search: String = "",
+    private val itemCount:Int = 2): PhotoDataRetriever(search, itemCount) {
+
     companion object {
         val testData = arrayListOf(
             PhotoData(
@@ -56,11 +59,18 @@ class TestPhotoDataRetriever: PhotoDataRetriever {
      * Get a certain number of photos, starting at the specified index.
      * Returns at most "count" photos, or an empty list if out of bounds
      */
-    override fun getPhotos(count: Int, start: Int): List<PhotoData> {
-        val end = min(start + count, testData.size)
+    override fun getMorePhotos(): List<PhotoData> {
+        val startIndex = pageSize * currentPage
+        val endIndex = min(startIndex + pageSize, testData.size)
+
+        // If we're off the end of the list then this will throw
+        // an exception.
+
         try {
-            return testData.subList(start, end)
-        } catch (e: IndexOutOfBoundsException) {
+            val result = testData.subList(startIndex, endIndex)
+            currentPage++
+            return result
+        } catch (e: Exception) {
             return arrayListOf<PhotoData>()
         }
     }

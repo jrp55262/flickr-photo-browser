@@ -14,20 +14,25 @@ import kotlinx.coroutines.launch
 class PhotoListViewModel(): ViewModel() {
 
     val photos = MutableLiveData<List<PhotoData>>()
-    private var currentPhotoOffset = 0
-    private val PHOTOS_PER_PAGE = 5
-    private val photoRetriever = TestPhotoDataRetriever()
+    private val photoRetriever = TestPhotoDataRetriever("ignored", 2)
 
     fun getMorePhotos() {
-        val newPhotos = photoRetriever.getPhotos(PHOTOS_PER_PAGE, currentPhotoOffset)
+        val newPhotos = photoRetriever.getMorePhotos()
         if (newPhotos.size > 0) {
             photos.postValue(photos.value?.toMutableList()?.plus(newPhotos) ?: newPhotos)
-            currentPhotoOffset += newPhotos.size
         }
     }
 
     init {
-        getMorePhotos()
+        timerLoop()
+    }
+
+    fun timerLoop() {
+        CoroutineScope(Dispatchers.IO).launch {
+            getMorePhotos()
+            delay(2000)
+            timerLoop()
+        }
     }
 
 }
