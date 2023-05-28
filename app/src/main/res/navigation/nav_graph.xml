@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/PhotoListFragment"
-        android:name="com.example.flickrphotobrowser.PhotoListFragment"
+        android:name="com.example.flickrphotobrowser.view.PhotoListFragment"
         android:label="@string/photo_list_fragment_label"
         tools:layout="@layout/photo_list_fragment">
 
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/DetailFragment"
-        android:name="com.example.flickrphotobrowser.PhotoDetailFragment"
+        android:name="com.example.flickrphotobrowser.view.PhotoDetailFragment"
         android:label="@string/photo_detail_fragment_label"
         tools:layout="@layout/photo_detail_fragment">
 
