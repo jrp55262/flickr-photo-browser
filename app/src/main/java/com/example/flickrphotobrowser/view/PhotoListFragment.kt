@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.lifecycle.Observer
@@ -48,16 +49,36 @@ class PhotoListFragment : Fragment() {
         binding.photoList.adapter = listViewAdapter
         binding.photoList.layoutManager = LinearLayoutManager(view.context)
 
+        // Instantiate the ViewModel
         viewModel = ViewModelProvider(this).get(PhotoListViewModel::class.java)
+
+        // Observer for viewmodel data updates
         viewModel.photos.observe(viewLifecycleOwner, Observer { photos ->
             listViewAdapter.updateData(photos)
         })
 
+        // Observer for viewmodel loading state
         viewModel.loading.observe(viewLifecycleOwner, Observer { loading ->
             if (loading && !was_loading) {
                 Toast.makeText(view.context, "Loading Photos...", Toast.LENGTH_SHORT).show()
             }
             was_loading = loading
+        })
+
+        // Set up the search box to get photos when we do a new search
+        val searchbox = binding.searchBox
+        searchbox.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                Log.d("FlickrPhotoBrowser", "Query sent: ${query}")
+                searchbox.clearFocus()
+                viewModel.getPhotos(query)
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                Log.d("FlickrPhotoBrowser", "Query text changed: ${newText}")
+                return false
+            }
         })
 
         // Detect vertical overscroll, load more photos if available.
