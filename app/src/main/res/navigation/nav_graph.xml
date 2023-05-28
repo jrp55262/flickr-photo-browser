@@ -3,26 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/PhotoListFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.example.flickrphotobrowser.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        android:id="@+id/PhotoListFragment"
+        android:name="com.example.flickrphotobrowser.PhotoListFragment"
+        android:label="@string/photo_list_fragment_label"
+        tools:layout="@layout/photo_list_fragment">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_PhotoFragment_to_DetailFragment"
+            app:destination="@id/DetailFragment" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.example.flickrphotobrowser.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        android:id="@+id/DetailFragment"
+        android:name="com.example.flickrphotobrowser.PhotoDetailFragment"
+        android:label="@string/photo_detail_fragment_label"
+        tools:layout="@layout/photo_detail_fragment">
 
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/action_DetailFragment_to_PhotoFragment"
+            app:destination="@id/PhotoListFragment" />
     </fragment>
 </navigation>
