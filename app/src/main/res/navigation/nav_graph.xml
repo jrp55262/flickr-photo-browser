@@ -24,5 +24,24 @@
         <action
             android:id="@+id/action_DetailFragment_to_PhotoFragment"
             app:destination="@id/PhotoListFragment" />
+        <argument
+            android:name="photoTitle"
+            app:argType="string"
+            android:defaultValue="Photo Title" />
+        <argument
+            android:name="photoImageUrl"
+            app:argType="string" />
+        <argument
+            android:name="photoDescription"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="photoDateTaken"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="photoDatePosted"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 </navigation>

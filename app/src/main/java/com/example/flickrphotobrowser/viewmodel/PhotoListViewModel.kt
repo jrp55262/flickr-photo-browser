@@ -15,8 +15,7 @@ class PhotoListViewModel(): ViewModel() {
 
     val photos = MutableLiveData<List<PhotoData>>()
     private var currentPhotoOffset = 0
-    private val PHOTOS_PER_PAGE = 1
-    private val LOOP_DELAY = 5000L
+    private val PHOTOS_PER_PAGE = 5
     private val photoRetriever = TestPhotoDataRetriever()
 
     fun getMorePhotos() {
@@ -28,14 +27,7 @@ class PhotoListViewModel(): ViewModel() {
     }
 
     init {
-        timerLoop()
+        getMorePhotos()
     }
 
-    private fun timerLoop() {
-        CoroutineScope(Dispatchers.IO).launch {
-            getMorePhotos()
-            delay(LOOP_DELAY)
-            timerLoop()
-        }
-    }
 }

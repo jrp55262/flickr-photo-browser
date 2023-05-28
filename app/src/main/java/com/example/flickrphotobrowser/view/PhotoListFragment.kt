@@ -50,7 +50,13 @@ class PhotoListFragment : Fragment() {
             listViewAdapter.updateData(photos)
         })
     }
-    
+
+    // Called when the user taps on an entry; navigates
+    // to the detail fragment
+    fun onClickCallback(photoData: PhotoData) {
+        findNavController().navigate(R.id.action_PhotoFragment_to_DetailFragment)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

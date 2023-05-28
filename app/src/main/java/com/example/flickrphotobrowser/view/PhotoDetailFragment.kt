@@ -36,6 +36,15 @@ class PhotoDetailFragment : Fragment() {
         binding.photoDetailButton.setOnClickListener {
             findNavController().navigate(R.id.action_DetailFragment_to_PhotoFragment)
         }
+
+        val title = arguments?.getString("photoTitle")
+        val imageUrl = arguments?.getString("photoImageUrl")
+        val description = arguments?.getString("photoDescription")
+        val dateTaken = arguments?.getString("photoDateTaken")
+        val datePosted = arguments?.getString("photoDatePosted")
+
+        val statusString = "Title: $title\nURL: $imageUrl\nDescription: $description\nTaken: $dateTaken\nPosted: $datePosted"
+        binding.photoDetailText.text = statusString
     }
 
     override fun onDestroyView() {
