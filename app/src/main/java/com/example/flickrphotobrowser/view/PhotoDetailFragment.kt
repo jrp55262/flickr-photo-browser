@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.flickrphotobrowser.R
 import com.example.flickrphotobrowser.databinding.PhotoDetailFragmentBinding
 
@@ -33,18 +34,22 @@ class PhotoDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.photoDetailButton.setOnClickListener {
+        binding.backToListButton.setOnClickListener {
             findNavController().navigate(R.id.action_DetailFragment_to_PhotoFragment)
         }
 
         val title = arguments?.getString("photoTitle")
         val imageUrl = arguments?.getString("photoImageUrl")
         val description = arguments?.getString("photoDescription")
-        val dateTaken = arguments?.getString("photoDateTaken")
-        val datePosted = arguments?.getString("photoDatePosted")
+        val dateTaken = arguments?.getString("photoDateTaken") ?: "Unknown"
+        val datePosted = arguments?.getString("photoDatePosted") ?: "Unknown"
 
-        val statusString = "Title: $title\nURL: $imageUrl\nDescription: $description\nTaken: $dateTaken\nPosted: $datePosted"
-        binding.photoDetailText.text = statusString
+        binding.photoDisplayTitle.text = title
+        binding.photoDisplayDescription.text = description
+        binding.photoDates.text = "Date taken: $dateTaken  Date posted: $datePosted"
+        Glide.with(view)
+            .load(imageUrl)
+            .into(binding.photoDisplayView)
     }
 
     override fun onDestroyView() {
