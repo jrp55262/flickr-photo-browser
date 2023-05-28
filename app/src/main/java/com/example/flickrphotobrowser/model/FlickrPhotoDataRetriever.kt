@@ -39,9 +39,9 @@ class FlickrPhotoDataRetriever(
                 title = photo.title,
                 imageUrl = photo.largeUrl,
                 thumbnailUrl = photo.thumbnailUrl,
-                description = photo.description,
-                dateTaken = photo.dateTaken.toString(),
-                datePosted = photo.datePosted.toString()
+                description = photo.description ?: "No Description",
+                dateTaken = photo.dateTaken?.toString() ?: "Unknown",
+                datePosted = photo.datePosted?.toString() ?: "Unknown"
             )
         }
         currentPage++
