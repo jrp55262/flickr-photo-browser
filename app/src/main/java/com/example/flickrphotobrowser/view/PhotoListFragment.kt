@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.example.flickrphotobrowser.R
 import com.example.flickrphotobrowser.databinding.PhotoListFragmentBinding
 import com.example.flickrphotobrowser.model.PhotoData
@@ -44,14 +45,14 @@ class PhotoListFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(PhotoListViewModel::class.java)
         viewModel.photos.observe(viewLifecycleOwner, Observer { photos ->
-            binding.photoListText.text = generateText(photos)
+            updateViews(photos)
         })
     }
 
     /**
      * Generate a list of photos from the supplied data
      */
-    private fun generateText(photos: List<PhotoData>): String {
+    private fun updateViews(photos: List<PhotoData>) {
         val textLines = mutableListOf<String>()
         textLines.add("Available photos")
         textLines.add("----------")
@@ -59,7 +60,15 @@ class PhotoListFragment : Fragment() {
             textLines.add(photo.title)
         }
         textLines.add("----------")
-        return textLines.joinToString("\n")
+        binding.photoListText.text = textLines.joinToString("\n")
+
+        if (photos.size > 0) {
+            val lastPhoto = photos[photos.lastIndex]
+            binding.photoTitle.text = lastPhoto.title
+            Glide.with(this)
+                .load(lastPhoto.thumbnailUrl)
+                .into(binding.photoThumbnail)
+        }
     }
     override fun onDestroyView() {
         super.onDestroyView()

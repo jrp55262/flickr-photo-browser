@@ -44,7 +44,7 @@ class TestPhotoDataRetriever: PhotoDataRetriever {
             PhotoData(
                 title = "Mountain Vista",
                 imageUrl = "https://picsum.photos/id/29/1280/1024",
-                thumbnailUrl = "https://picsum.photos/id/29/150/100",
+                thumbnailUrl = "https://fastly.picsum.photos/id/29/150/100.jpg?hmac=VcvkELtUePQaXF7h8TpSNj8QzIv_iRvy4mat9OUXIn4",
                 description = "Overlooking snowy mountains",
                 dateTaken = "5/1/2015",
                 datePosted = "6/1/2015"
