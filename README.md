@@ -3,7 +3,7 @@ This is a simple Flickr photo browser.  It allows the user to search Flickr phot
 ## Usage
 The user interface is very basic:
 - After launch, you see the results screen with a search box.
-- Tap on the hourglass and enter your search term.
+- Tap on the magnifying glass and enter your search term.
 - You will then be presented with a scrollable list of photo thumbnails with titles.
 - Tapping on any photo will bring you to a deatil screen with a larger version of the photo as well as title and description information.
 - Tapping on the Back button at the top of the screen will bring you back to the results screen.
