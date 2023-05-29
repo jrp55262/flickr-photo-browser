@@ -7,8 +7,8 @@ import kotlin.math.min
  * static list of data items for testing/debugging
  */
 class TestPhotoDataRetriever(
-    private val search: String = "",
-    private val itemCount:Int = 2): PhotoDataRetriever(search, itemCount) {
+    search: String = "",
+    itemCount:Int = 2): PhotoDataRetriever(search, itemCount) {
 
     companion object {
         val testData = arrayListOf(
@@ -66,12 +66,12 @@ class TestPhotoDataRetriever(
         // If we're off the end of the list then this will throw
         // an exception.
 
-        try {
+        return try {
             val result = testData.subList(startIndex, endIndex)
             currentPage++
-            return result
+            result
         } catch (e: Exception) {
-            return arrayListOf<PhotoData>()
+            arrayListOf()
         }
     }
 }

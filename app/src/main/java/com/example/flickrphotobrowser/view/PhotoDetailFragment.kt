@@ -1,13 +1,11 @@
 package com.example.flickrphotobrowser.view
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
-import com.example.flickrphotobrowser.R
 import com.example.flickrphotobrowser.databinding.PhotoDetailFragmentBinding
 
 /**
@@ -24,7 +22,7 @@ class PhotoDetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = PhotoDetailFragmentBinding.inflate(inflater, container, false)
         return binding.root
@@ -34,18 +32,17 @@ class PhotoDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val title = arguments?.getString("photoTitle")
-        val imageUrl = arguments?.getString("photoImageUrl")
-        val description = arguments?.getString("photoDescription")
-        val dateTaken = arguments?.getString("photoDateTaken") ?: "Unknown"
-        val datePosted = arguments?.getString("photoDatePosted") ?: "Unknown"
-
-        binding.photoDisplayTitle.text = title
-        binding.photoDisplayDescription.text = description
-        binding.photoDates.text = "Date taken: $dateTaken  Date posted: $datePosted"
-        Glide.with(view)
-            .load(imageUrl)
-            .into(binding.photoDisplayView)
+        // When the main page navigates to us, the photo details are
+        // bundled up in the arguments.  Populate the view from this.
+        arguments?.apply {
+            binding.photoDisplayTitle.text = getString("photoTitle")
+            binding.photoDisplayDescription.text = getString("photoDescription")
+            binding.photoDates.text =
+                "Date taken: ${getString("photoDateTaken") ?: "Unknown"}, Date Posted: ${getString("photoDatePosted") ?: "Unknown"}"
+            Glide.with(view)
+                .load(getString("photoImageUrl"))
+                .into(binding.photoDisplayView)
+        }
     }
 
     override fun onDestroyView() {

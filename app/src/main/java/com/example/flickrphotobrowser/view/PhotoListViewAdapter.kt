@@ -1,7 +1,7 @@
 package com.example.flickrphotobrowser.view
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.MotionEvent.ACTION_UP
 import android.view.View
 import android.view.ViewGroup
@@ -14,13 +14,17 @@ import com.bumptech.glide.Glide
 import com.example.flickrphotobrowser.R
 import com.example.flickrphotobrowser.model.PhotoData
 
-class PhotoListViewAdapter(): RecyclerView.Adapter<PhotoListViewAdapter.ViewHolder>(){
+
+/**
+ * RecyclerViewAdapter for the photo list.
+ */
+class PhotoListViewAdapter: RecyclerView.Adapter<PhotoListViewAdapter.ViewHolder>(){
 
     private var photoList: List<PhotoData> = emptyList()
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        val itemTitleView = itemView.findViewById<TextView>(R.id.photoTitle)
-        val itemImageView = itemView.findViewById<ImageView>(R.id.photoThumbnail)
+        val itemTitleView: TextView = itemView.findViewById(R.id.photoTitle)
+        val itemImageView: ImageView = itemView.findViewById(R.id.photoThumbnail)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -29,23 +33,28 @@ class PhotoListViewAdapter(): RecyclerView.Adapter<PhotoListViewAdapter.ViewHold
         return ViewHolder(photoView)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val photoData = photoList[position]
+
+        // Set the title text
         holder.itemTitleView.text = photoData.title
+
+        // Load the thumbnail into the image view
         Glide.with(holder.itemView)
             .load(photoData.thumbnailUrl)
             .into(holder.itemImageView)
-        holder.itemView.setOnTouchListener(object: View.OnTouchListener {
-            override fun onTouch(v: View, event: MotionEvent): Boolean {
-                if (event.action == ACTION_UP) {
-                    goToDetailPage(photoData, v)
-                }
-                return true
+
+        // Set an onTouch listener to navigate to the detail fragment
+        holder.itemView.setOnTouchListener { v, event ->
+            if (event.action == ACTION_UP) {
+                goToDetailPage(photoData, v)
             }
-        })
+            true
+        }
     }
 
-    fun goToDetailPage(photoData: PhotoData, view: View) {
+    private fun goToDetailPage(photoData: PhotoData, view: View) {
         val bundle = bundleOf(
             "photoTitle" to photoData.title,
             "photoImageUrl" to photoData.imageUrl,

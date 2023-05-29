@@ -1,23 +1,17 @@
 package com.example.flickrphotobrowser.view
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.Toast
-import androidx.navigation.fragment.findNavController
-import androidx.lifecycle.Observer
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
-import com.bumptech.glide.Glide
-import com.example.flickrphotobrowser.R
 import com.example.flickrphotobrowser.databinding.PhotoListFragmentBinding
-import com.example.flickrphotobrowser.model.PhotoData
 import com.example.flickrphotobrowser.viewmodel.PhotoListViewModel
 
 /**
@@ -36,7 +30,7 @@ class PhotoListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = PhotoListFragmentBinding.inflate(inflater, container, false)
         return binding.root
@@ -45,38 +39,37 @@ class PhotoListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var was_loading = false
+        var wasLoading = false
         binding.photoList.adapter = listViewAdapter
         binding.photoList.layoutManager = LinearLayoutManager(view.context)
 
         // Instantiate the ViewModel
         viewModel = ViewModelProvider(this).get(PhotoListViewModel::class.java)
 
-        // Observer for viewmodel data updates
-        viewModel.photos.observe(viewLifecycleOwner, Observer { photos ->
+        // Observer for view model data updates
+        viewModel.photos.observe(viewLifecycleOwner) { photos ->
             listViewAdapter.updateData(photos)
-        })
+        }
 
-        // Observer for viewmodel loading state
-        viewModel.loading.observe(viewLifecycleOwner, Observer { loading ->
-            if (loading && !was_loading) {
+        // Observer for view model loading state
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            if (loading && !wasLoading) {
+                // TODO - Create an overlay scrim with a spinner instead of a toast.
                 Toast.makeText(view.context, "Loading Photos...", Toast.LENGTH_SHORT).show()
             }
-            was_loading = loading
-        })
+            wasLoading = loading
+        }
 
-        // Set up the search box to get photos when we do a new search
-        val searchbox = binding.searchBox
-        searchbox.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+        // Set up the search box to start the photo retrieval when we do a new search
+        val searchBox = binding.searchBox
+        searchBox.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                Log.d("FlickrPhotoBrowser", "Query sent: ${query}")
-                searchbox.clearFocus()
+                searchBox.clearFocus()
                 viewModel.getPhotos(query)
                 return true
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                Log.d("FlickrPhotoBrowser", "Query text changed: ${newText}")
                 return false
             }
         })
@@ -91,10 +84,6 @@ class PhotoListFragment : Fragment() {
                 }
             }
         })
-    }
-
-    override fun onResume() {
-        super.onResume()
     }
 
     override fun onDestroyView() {
